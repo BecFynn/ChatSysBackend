@@ -31,14 +31,16 @@ public class GroupController : ControllerBase
         }
     }
 
+    
+    
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] string groupname, Guid creatorId)
+    public async Task<IActionResult> Post([FromBody] CreateGroupRequest req)
     {   
-        User groupCreator  = _context.Users.FirstOrDefault((x) => x.Id == creatorId); 
+        User groupCreator  = _context.Users.FirstOrDefault((x) => x.Id == req.creatorId); 
         var newGroupchat = new Groupchat()
         {
             GroupChatId = Guid.NewGuid(),
-            Name = groupname,
+            Name = req.groupname,
             CreatedDate = DateTime.Now
         };
         newGroupchat.Users.Add(groupCreator);

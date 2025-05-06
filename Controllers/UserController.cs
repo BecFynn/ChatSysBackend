@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using ChatSysBackend.Database.Models;
+using ChatSysBackend.Database.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,16 +29,16 @@ public class UserController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<IActionResult> Post()
+    public async Task<IActionResult> Post([FromBody] CreateUserRequest req)
     {
         var newUser = new User()
         {
             Id = Guid.NewGuid(),
-            Name = "Ruben",
-            Surname = "Olaru",
-            DisplayName = "Ruben Olaru",
-            NtUser = "olr1we",
-            Email = "ruben.olaru@de.bosch.com",
+            Name = req.Name,
+            Surname = req.Surname,
+            DisplayName = req.DisplayName,
+            NtUser = req.NtUser,
+            Email = req.Email,
             CreatedAt = DateTime.UtcNow
         };
 
