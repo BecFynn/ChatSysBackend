@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using ChatSysBackend.Database.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatSysBackend.Controllers;
 
@@ -7,9 +9,40 @@ namespace ChatSysBackend.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult Get()
+    private DataContext _context;
+    public UserController(DataContext context)
     {
-        return Ok(DateTime.Now);
+        _context = context;
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        try
+        {
+            return Ok(_context.Users.ToList());
+        }
+        catch (Exception ex)
+        {
+            return NotFound("Fehler");
+        }
+    }
+    [HttpPost]
+    public async Task<IActionResult> Post()
+    {
+        var newUser = new User()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Ruben",
+            Surname = "Olaru",
+            DisplayName = "Ruben Olaru",
+            NtUser = "olr1we",
+            Email = "ruben.olaru@de.bosch.com",
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _context.Users.AddAsync(newUser);
+        await _context.SaveChangesAsync();
+        return Created("", newUser);
     }
 }

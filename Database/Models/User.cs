@@ -10,6 +10,6 @@ public class User
     public string DisplayName { get; set; }
     public string NtUser { get; set; }
     public string Email { get; set; }
-    public DateOnly CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     public List<Groupchat> UserGroupchats { get; set; } = new List<Groupchat>(); 
 }
