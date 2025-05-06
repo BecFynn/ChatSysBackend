@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "+s6S7RYkJsXXBj9Vl5+Zv1cLqP9vmya2a18My5LgUSo=",
+  "Source": "ChatSysBackend",
+  "BasePath": "_content/ChatSysBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
