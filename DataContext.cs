@@ -8,6 +8,8 @@ public class DataContext : DbContext
     
     public DbSet<User> Users { get; set; }
     public DbSet<Groupchat> Groupchats { get; set; }
+    public object Group { get; }
+
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
         
