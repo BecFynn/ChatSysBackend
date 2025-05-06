@@ -1,3 +1,4 @@
+using System.Reflection;
 using ChatSysBackend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -16,7 +17,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseMySql("Server=localhost;Database=chatsys;Port=3306;User=test;Password=test;",
         MySqlServerVersion.LatestSupportedServerVersion));
-
+builder.Services.AddAutoMapper(opt => { opt.AddMaps(Assembly.GetExecutingAssembly()); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {

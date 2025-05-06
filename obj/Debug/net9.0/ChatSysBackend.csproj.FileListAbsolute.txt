@@ -267,3 +267,4 @@ C:\Users\OLR1WE\Desktop\ChatSysBackend\obj\Debug\net9.0\staticwebassets.pack.jso
 C:\Users\OLR1WE\Desktop\ChatSysBackend\obj\Debug\net9.0\ChatSysB.68D9BAA2.Up2Date
 C:\Users\OLR1WE\Desktop\ChatSysBackend\obj\Debug\net9.0\ChatSysBackend.genruntimeconfig.cache
 C:\Users\OLR1WE\Desktop\ChatSysBackend\obj\Debug\net9.0\ref\ChatSysBackend.dll
+C:\Users\OLR1WE\Desktop\ChatSysBackend\bin\Debug\net9.0\AutoMapper.dll
