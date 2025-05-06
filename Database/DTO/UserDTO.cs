@@ -1,4 +1,4 @@
-﻿namespace global::ChatSysBackend.Controllers.Database.DTO;
+﻿namespace ChatSysBackend.Controllers.Database.DTO;
 
 public class UserDTO
 {
