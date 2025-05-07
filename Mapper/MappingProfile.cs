@@ -20,6 +20,8 @@ public class MappingProfile : Profile
         // Short DTOs for nesting
         CreateMap<Groupchat, GroupchatDTO_Short>();
         CreateMap<User, UserDTO_Short>();
+        
+        CreateMap<Message, MessageDTO>();
 
 
     }

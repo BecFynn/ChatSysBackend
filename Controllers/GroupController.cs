@@ -71,8 +71,8 @@ public class GroupController : ControllerBase
     [HttpDelete("removeUser")]
     public async Task<IActionResult> RemoveUser([FromBody] AddUserRequest req)
     {
-        User user = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
-        Groupchat group = _context.Groupchats
+        User? user = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
+        Groupchat? group = _context.Groupchats
             .Include(g => g.Users)
             .FirstOrDefault(x => x.Id == req.groupId);
         
