@@ -30,7 +30,6 @@ public class GroupController : ControllerBase
                 .ToListAsync();
 
             var groupChatDTOs = _mapper.Map<List<GroupchatDTO>>(groupChats);
-
             return Ok(groupChatDTOs);
         }
         catch (Exception ex)
@@ -66,7 +65,24 @@ public class GroupController : ControllerBase
         Groupchat group = _context.Groupchats.FirstOrDefault((x) => x.Id == req.groupId);
         group.Users.Add(user);
         await _context.SaveChangesAsync();
-        return Created("", _mapper.Map<User>(req));
+        return Created("", group);
+    }
+
+    [HttpDelete("removeUser")]
+    public async Task<IActionResult> RemoveUser([FromBody] AddUserRequest req)
+    {
+        User user = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
+        Groupchat group = _context.Groupchats
+            .Include(g => g.Users)
+            .FirstOrDefault(x => x.Id == req.groupId);
+        
+        if (user == null || group == null)
+        {
+            return NotFound();
+        }
+        group.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return Created("", group);
     }
 }
 
