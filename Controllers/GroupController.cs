@@ -47,9 +47,9 @@ public class GroupController : ControllerBase
         User groupCreator  = _context.Users.FirstOrDefault((x) => x.Id == req.creatorId); 
         var newGroupchat = new Groupchat()
         {
-            GroupChatId = Guid.NewGuid(),
+            Id = Guid.NewGuid(),
             Name = req.groupname,
-            CreatedDate = DateTime.Now
+            //CreatedDate = DateTime.Now
         };
         newGroupchat.Users.Add(groupCreator);
         await _context.Groupchats.AddAsync(newGroupchat);
@@ -63,7 +63,7 @@ public class GroupController : ControllerBase
     public async Task<IActionResult> AddUser([FromBody] AddUserRequest req)
     {
         User user  = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
-        Groupchat group = _context.Groupchats.FirstOrDefault((x) => x.GroupChatId == req.groupId);
+        Groupchat group = _context.Groupchats.FirstOrDefault((x) => x.Id == req.groupId);
         group.Users.Add(user);
         await _context.SaveChangesAsync();
         return Created("", _mapper.Map<User>(req));

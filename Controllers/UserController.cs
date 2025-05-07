@@ -39,7 +39,7 @@ public class UserController : ControllerBase
             DisplayName = req.DisplayName,
             NtUser = req.NtUser,
             Email = req.Email,
-            CreatedAt = DateTime.UtcNow
+            //CreatedAt = DateTime.UtcNow
         };
 
         await _context.Users.AddAsync(newUser);
