@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using AutoMapper;
 using ChatSysBackend.Controllers.Database.DTO;
 using ChatSysBackend.Database.Models;
+using ChatSysBackend.Database.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatSysBackend.Controllers;
@@ -50,4 +51,15 @@ public class GroupController : ControllerBase
         var groupchatDto = _mapper.Map<GroupchatDTO>(newGroupchat);
         return Created("", groupchatDto);
     }
+
+    [HttpPost("addUser")]
+    public async Task<IActionResult> AddUser([FromBody] AddUserRequest req)
+    {
+        User user  = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
+        Groupchat group = _context.Groupchats.FirstOrDefault((x) => x.GroupChatId == req.groupId);
+        group.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return Created("", _mapper.Map<User>(req));
+    }
 }
+
