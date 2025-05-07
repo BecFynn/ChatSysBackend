@@ -1,4 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using AutoMapper;
+
 using ChatSysBackend.Database.Models;
 using ChatSysBackend.Database.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,11 @@ namespace ChatSysBackend.Controllers;
 public class UserController : ControllerBase
 {
     private DataContext _context;
-    public UserController(DataContext context)
+    private readonly IMapper _mapper;
+    public UserController(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     
     [HttpGet]
@@ -21,7 +25,12 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(_context.Users.ToList());
+            var users = await _context.Users
+                .Include(u => u.UserGroupchats)
+                .ToListAsync();
+
+            var userDTOs = _mapper.Map<List<UserDTO>>(users);
+            return Ok(userDTOs);
         }
         catch (Exception ex)
         {

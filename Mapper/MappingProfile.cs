@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ChatSysBackend.Controllers.Database.DTO;
+
 using ChatSysBackend.Database.Models;
 
 
@@ -9,7 +9,18 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<User, UserDTO>();
-        CreateMap<Groupchat, GroupchatDTO>();
+        CreateMap<User, UserDTO>()
+            .ForMember(dest => dest.UserGroupchats,
+                opt => opt.MapFrom(src => src.UserGroupchats));
+
+        CreateMap<Groupchat, GroupchatDTO>()
+            .ForMember(dest => dest.Users,
+                opt => opt.MapFrom(src => src.Users));
+
+        // Short DTOs for nesting
+        CreateMap<Groupchat, GroupchatDTO_Short>();
+        CreateMap<User, UserDTO_Short>();
+
+
     }
 }
