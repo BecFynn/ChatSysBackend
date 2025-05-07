@@ -23,6 +23,26 @@ public class MessageController : ControllerBase
 
     }
     
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        try
+        {
+            var messages = await _context.Messages
+                .Include(x => x.groupReciever)
+                .Include(x => x.userReciever)
+                .Include(x => x.Sender)
+                .ToListAsync();
+            
+            return Ok(messages);
+        }
+        catch (Exception ex)
+        {
+            return NotFound("Fehler");
+        }
+    }
+
+    
     [Route("/Send")]
     [HttpPost]
 
