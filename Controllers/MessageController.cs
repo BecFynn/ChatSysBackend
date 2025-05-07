@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 
 using ChatSysBackend.Database.Models;
 using ChatSysBackend.Database.Models.Requests;
@@ -13,11 +14,12 @@ public class MessageController : ControllerBase
 {
     private DataContext _context;
     private readonly IMapper _mapper;
-
-    public MessageController(DataContext context, IMapper mapper)
+    private readonly WebsocketManager _webSocketManager;
+    public MessageController(DataContext context, IMapper mapper, WebsocketManager webSocketManager)
     {
         _context = context;
         _mapper = mapper;
+        _webSocketManager = webSocketManager;
 
     }
     
@@ -26,21 +28,27 @@ public class MessageController : ControllerBase
 
     public async Task<IActionResult> Send([FromBody] SendMessageRequest req)
     {
-        User sender = _context.Users.FirstOrDefault((x) => x.Id == req.senderID);
-        Groupchat _groupReciever =  _context.Groupchats.FirstOrDefault((x) => x.Id == req.receiverID);
-        User _userReciever = _context.Users.FirstOrDefault((x) => x.Id == req.receiverID);
+        User? sender = _context.Users.FirstOrDefault((x) => x.Id == req.senderID);
+        Groupchat? _groupReciever =  _context.Groupchats.FirstOrDefault((x) => x.Id == req.receiverID);
+        User? _userReciever = _context.Users.FirstOrDefault((x) => x.Id == req.receiverID);
 
-        if (sender == null || (_groupReciever == null && _userReciever == null))
+        if (sender == null)
         {
-            return BadRequest("Sender or Receiver doesn't exist");
+            return BadRequest("Sender not found");
         }
-        
-        
-        
-        var foundSender = _groupReciever.Users.Find((x) => x.Id == sender.Id);
-        if (foundSender == null)
+
+        if (_userReciever == null && _groupReciever == null)
         {
-            return BadRequest("Sender not in Groupchat");
+            return BadRequest("Receiver not found");
+        }
+
+        if (_groupReciever != null)
+        {
+            var foundSender = _groupReciever.Users.Find((x) => x.Id == sender.Id);
+            if (foundSender == null)
+            {
+                return BadRequest("Sender not in Groupchat");
+            }
         }
         
         var newMessage = new Message()
@@ -54,10 +62,20 @@ public class MessageController : ControllerBase
             content = req.content,
         };
         
-      
-        
         await _context.Messages.AddAsync(newMessage);
         await _context.SaveChangesAsync();
+        
+        var messageObject = new
+        {
+            action = "message",
+            sender = sender,
+            userReciever = _userReciever,
+            groupReciever = _groupReciever,
+            content = req.content,
+        };
+        string json = JsonSerializer.Serialize(messageObject);
+        await _webSocketManager.BroadcastAsync(json);
+        
         
         //Emit to all with websockets
         return Created("", "Message send successfully");

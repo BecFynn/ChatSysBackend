@@ -53,6 +53,10 @@ public class UserController : ControllerBase
 
         await _context.Users.AddAsync(newUser);
         await _context.SaveChangesAsync();
+
+        newUser.Avatar =
+            $"https://api.dicebear.com/9.x/open-peeps/svg?seed={newUser.NtUser}";
+        await _context.SaveChangesAsync();
         return Created("", newUser);
     }
 }

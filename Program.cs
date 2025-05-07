@@ -1,7 +1,9 @@
+using System.Net;
 using System.Reflection;
 using ChatSysBackend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +31,31 @@ builder.Services.AddSwaggerGen(opt =>
         Format = "date"
     })) ;
 });
-//builder.Services.AddSingleton<WebSocketManager>();
+builder.Services.AddSingleton<WebsocketManager>();
 
 var app = builder.Build();
+
+app.UseWebSockets();
+var webSocketManager = app.Services.GetRequiredService<WebsocketManager>();
+
+app.Map("/ws", async context =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        using var ws = await context.WebSockets.AcceptWebSocketAsync();
+        webSocketManager.AddSocket(ws);
+
+        while (ws.State == WebSocketState.Open)
+        {
+        }
+
+        webSocketManager.RemoveClosedSockets();
+    }
+    else
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+    }
+});
 
 
 if (app.Environment.IsDevelopment())

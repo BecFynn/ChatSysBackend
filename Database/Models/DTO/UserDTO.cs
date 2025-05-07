@@ -7,6 +7,7 @@
     public string NtUser { get; set; }
     public string Email { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string? Avatar { get; set; }
 
     public List<GroupchatDTO_Short> UserGroupchats { get; set; } = new();
 }

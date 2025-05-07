@@ -12,5 +12,7 @@ public class User
     [Required] public string NtUser { get; set; }
     [Required] public string Email { get; set; }
     [Required] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    
+    public string? Avatar{ get; set; }
     public List<Groupchat> UserGroupchats { get; set; } = new List<Groupchat>(); 
 }
