@@ -4,6 +4,7 @@ using ChatSysBackend.Controllers.Database.DTO;
 using ChatSysBackend.Database.Models;
 using ChatSysBackend.Database.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatSysBackend.Controllers;
 
@@ -24,7 +25,13 @@ public class GroupController : ControllerBase
     {
         try
         {
-            return Ok(_context.Groupchats.ToList());
+            var groupChats = await _context.Groupchats
+                .Include(gc => gc.Users)
+                .ToListAsync();
+
+            var groupChatDTOs = _mapper.Map<List<GroupchatDTO>>(groupChats);
+
+            return Ok(groupChatDTOs);
         }
         catch (Exception ex)
         {
