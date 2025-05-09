@@ -17,6 +17,6 @@ public class Message
     public User? userReciever { get; set; } 
     
     [Required] public string content { get; set; }
-    [Required] public DateTime createdDate { get; set; } = DateTime.Now;
+    [Required] public DateTime createdDate { get; set; }
     
 }

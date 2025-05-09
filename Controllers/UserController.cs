@@ -37,6 +37,16 @@ public class UserController : ControllerBase
             return NotFound("Fehler");
         }
     }
+
+    [HttpGet]
+    [Route("{userID}")]
+
+    public async Task<IActionResult> Get(Guid userID)
+    {   
+        User user = await _context.Users.FindAsync(userID);
+        return Ok(user);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateUserRequest req)
     {

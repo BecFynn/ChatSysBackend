@@ -33,6 +33,14 @@ builder.Services.AddSwaggerGen(opt =>
 });
 builder.Services.AddSingleton<WebsocketManager>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(["http://localhost:5173/"]).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 app.UseWebSockets();
@@ -82,5 +90,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("DevOrigins");
 app.Run();

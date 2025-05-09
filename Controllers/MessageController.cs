@@ -24,7 +24,7 @@ public class MessageController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] Guid target, int count)
+    public async Task<IActionResult> Get([FromQuery] Guid target, int count = 20)
     {
         try
         {
@@ -93,6 +93,7 @@ public class MessageController : ControllerBase
             groupReciever = _groupReciever,
             
             content = req.content,
+            createdDate = DateTime.Now
         };
         
         await _context.Messages.AddAsync(newMessage);
@@ -104,7 +105,8 @@ public class MessageController : ControllerBase
             sender = _mapper.Map<UserDTO>(sender),
             userReciever = _userReciever != null ? _mapper.Map<UserDTO>(_userReciever) : null,
             groupReciever = _groupReciever != null ? _mapper.Map<GroupchatDTO>(_groupReciever) : null,
-            content = req.content
+            content = req.content,
+            createdDate = DateTime.Now
         };
 
         string json = JsonSerializer.Serialize(messageObject);
