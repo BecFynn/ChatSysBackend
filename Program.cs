@@ -33,13 +33,15 @@ builder.Services.AddSwaggerGen(opt =>
 });
 builder.Services.AddSingleton<WebsocketManager>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddCors(o => o.AddPolicy("DevCors", b =>
     {
-        policy.WithOrigins(["http://localhost:5173/"]).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-    });
-});
+        b.WithOrigins(["http://127.0.0.1:5173", "http://localhost:5173"])
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    }));
+
 
 var app = builder.Build();
 
@@ -65,7 +67,6 @@ app.Map("/ws", async context =>
     }
 });
 
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -90,5 +91,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors("DevOrigins");
+app.UseCors("DevCors");
 app.Run();
