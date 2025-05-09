@@ -54,6 +54,7 @@ public class MessageController : ControllerBase
     [Route("/Send")]
     [HttpPost]
 
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MessageResponse))]
     public async Task<IActionResult> Send([FromBody] SendMessageRequest req)
     {
         User? sender = _context.Users.FirstOrDefault((x) => x.Id == req.senderID);
@@ -99,17 +100,20 @@ public class MessageController : ControllerBase
         await _context.Messages.AddAsync(newMessage);
         await _context.SaveChangesAsync();
         
-        var messageObject = new
+        var messageObject = new MessageResponse
         {
-            action = "message",
-            sender = _mapper.Map<UserDTO>(sender),
-            userReciever = _userReciever != null ? _mapper.Map<UserDTO>(_userReciever) : null,
-            groupReciever = _groupReciever != null ? _mapper.Map<GroupchatDTO>(_groupReciever) : null,
-            content = req.content,
-            createdDate = DateTime.Now
+            Action = "message",
+            Sender = _mapper.Map<UserDTO>(sender),
+            UserReciever = _userReciever != null ? _mapper.Map<UserDTO>(_userReciever) : null,
+            GroupReciever = _groupReciever != null ? _mapper.Map<GroupchatDTO>(_groupReciever) : null,
+            Content = req.content,
+            CreatedDate = DateTime.Now
         };
 
-        string json = JsonSerializer.Serialize(messageObject);
+        string json = JsonSerializer.Serialize(messageObject, new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
         await _webSocketManager.BroadcastAsync(json);
         
         

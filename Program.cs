@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddOpenApi();
@@ -31,6 +32,7 @@ builder.Services.AddSwaggerGen(opt =>
         Format = "date"
     })) ;
 });
+
 builder.Services.AddSingleton<WebsocketManager>();
 
 if (builder.Environment.IsDevelopment())
