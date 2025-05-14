@@ -31,9 +31,28 @@ public class MessageController : ControllerBase
         {
             count = Math.Min(count, 50); // Limit to max 50
 
+            // First try to find the target as a user
+            var userTarget = await _context.Users
+                .Where(u => u.Id == target)
+                .FirstOrDefaultAsync();
+
+            // If not a user, try to find it as a group
+            var groupTarget = userTarget == null
+                ? await _context.Groupchats.Where(g => g.Id == target).FirstOrDefaultAsync()
+                : null;
+
+            if (userTarget == null && groupTarget == null)
+            {
+                return NotFound("Target nicht gefunden");
+            }
+
+            string targetName = userTarget != null ? userTarget.Name : groupTarget!.Name;
+            string targetType = userTarget != null ? "user" : "group";
+
+            // Get messages related to the target
             var messages = await _context.Messages
-                .Where(m => (m.userReciever != null && m.userReciever.Id == target)
-                            || (m.groupReciever != null && m.groupReciever.Id == target))
+                .Where(m => (userTarget != null && m.userReciever != null && m.userReciever.Id == target)
+                            || (groupTarget != null && m.groupReciever != null && m.groupReciever.Id == target))
                 .OrderByDescending(m => m.createdDate)
                 .Include(m => m.Sender)
                 .Include(m => m.userReciever)
@@ -43,33 +62,13 @@ public class MessageController : ControllerBase
 
             var messageDtos = _mapper.Map<List<MessageDTO>>(messages);
 
-            // Determine target name
-            string targetName = null;
-            string targetType = null;
-            if (messages.FirstOrDefault()?.userReciever != null)
-            {
-                targetType = "user";
-                targetName = messages.First().userReciever.Name;
-            }
-            else if (messages.FirstOrDefault()?.groupReciever != null)
-            {   
-                targetType = "group";
-                targetName = messages.First().groupReciever.Name;
-            }
-
-            if (targetType == null)
-            {
-                return NotFound("Target nicht gefunden");
-            }
-
             var myTarget = new Target
             {
                 Id = target,
                 Name = targetName,
                 Type = targetType
-                
             };
-            
+
             var myRes = new GetMessagesReponse
             {
                 Target = myTarget,
@@ -81,7 +80,7 @@ public class MessageController : ControllerBase
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            return NotFound("Fehler");
+            return StatusCode(500, "Fehler beim Abrufen der Nachrichten");
         }
     }
 

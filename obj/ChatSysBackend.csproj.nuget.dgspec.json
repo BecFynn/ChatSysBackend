@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EYF1FE\\RiderProjects\\ChatSysBackend\\ChatSysBackend\\ChatSysBackend.csproj": {}
+    "C:\\Users\\OLR1WE\\Desktop\\ChatSysBackend\\ChatSysBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EYF1FE\\RiderProjects\\ChatSysBackend\\ChatSysBackend\\ChatSysBackend.csproj": {
+    "C:\\Users\\OLR1WE\\Desktop\\ChatSysBackend\\ChatSysBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EYF1FE\\RiderProjects\\ChatSysBackend\\ChatSysBackend\\ChatSysBackend.csproj",
+        "projectUniqueName": "C:\\Users\\OLR1WE\\Desktop\\ChatSysBackend\\ChatSysBackend.csproj",
         "projectName": "ChatSysBackend",
-        "projectPath": "C:\\Users\\EYF1FE\\RiderProjects\\ChatSysBackend\\ChatSysBackend\\ChatSysBackend.csproj",
-        "packagesPath": "C:\\Users\\EYF1FE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EYF1FE\\RiderProjects\\ChatSysBackend\\ChatSysBackend\\obj\\",
+        "projectPath": "C:\\Users\\OLR1WE\\Desktop\\ChatSysBackend\\ChatSysBackend.csproj",
+        "packagesPath": "C:\\Users\\OLR1WE\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\OLR1WE\\Desktop\\ChatSysBackend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\EYF1FE\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\OLR1WE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +40,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -102,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
