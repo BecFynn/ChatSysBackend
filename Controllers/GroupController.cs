@@ -21,6 +21,8 @@ public class GroupController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO[]))]
+
     public async Task<IActionResult> Get()
     {
         try

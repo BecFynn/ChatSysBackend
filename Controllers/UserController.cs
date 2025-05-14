@@ -21,6 +21,7 @@ public class UserController : ControllerBase
     }
     
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDTO[]))]
     public async Task<IActionResult> Get()
     {
         try
