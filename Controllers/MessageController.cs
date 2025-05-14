@@ -24,38 +24,74 @@ public class MessageController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] Guid target, int count = 20)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetMessagesReponse))]
+    public async Task<IActionResult> GetMessages([FromQuery] Guid target, int count = 20)
     {
         try
         {
-            
             count = Math.Min(count, 50); // Limit to max 50
 
             var messages = await _context.Messages
-                .Where(m => m.userReciever != null && m.userReciever.Id == target
-                            || m.groupReciever != null && m.groupReciever.Id == target)
+                .Where(m => (m.userReciever != null && m.userReciever.Id == target)
+                            || (m.groupReciever != null && m.groupReciever.Id == target))
                 .OrderByDescending(m => m.createdDate)
                 .Include(m => m.Sender)
                 .Include(m => m.userReciever)
                 .Include(m => m.groupReciever)
                 .Take(count)
                 .ToListAsync();
+
             var messageDtos = _mapper.Map<List<MessageDTO>>(messages);
-            return Ok(messageDtos);
+
+            // Determine target name
+            string targetName = null;
+            string targetType = null;
+            if (messages.FirstOrDefault()?.userReciever != null)
+            {
+                targetType = "user";
+                targetName = messages.First().userReciever.Name;
+            }
+            else if (messages.FirstOrDefault()?.groupReciever != null)
+            {   
+                targetType = "group";
+                targetName = messages.First().groupReciever.Name;
+            }
+
+            if (targetType == null)
+            {
+                return NotFound("Target nicht gefunden");
+            }
+
+            var myTarget = new Target
+            {
+                Id = target,
+                Name = targetName,
+                Type = targetType
+                
+            };
+            
+            var myRes = new GetMessagesReponse
+            {
+                Target = myTarget,
+                Messages = messageDtos
+            };
+
+            return Ok(myRes);
         }
         catch (Exception ex)
-        {   
+        {
             Console.WriteLine(ex);
             return NotFound("Fehler");
         }
     }
+
 
     
     [Route("/Send")]
     [HttpPost]
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MessageResponse))]
-    public async Task<IActionResult> Send([FromBody] SendMessageRequest req)
+    public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest req)
     {
         User? sender = _context.Users.FirstOrDefault((x) => x.Id == req.senderID);
         Groupchat? _groupReciever = _context.Groupchats

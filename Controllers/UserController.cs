@@ -22,7 +22,7 @@ public class UserController : ControllerBase
     
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDTO[]))]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAllUsers()
     {
         try
         {
@@ -40,16 +40,15 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{userID}")]
-
-    public async Task<IActionResult> Get(Guid userID)
+    [Route("{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
     {   
-        User user = await _context.Users.FindAsync(userID);
+        User user = await _context.Users.FindAsync(id);
         return Ok(user);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateUserRequest req)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest req)
     {
         var newUser = new User()
         {

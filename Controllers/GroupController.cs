@@ -23,7 +23,7 @@ public class GroupController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO[]))]
 
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAllGroups()
     {
         try
         {
@@ -40,10 +40,23 @@ public class GroupController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO))]
+
+    public async Task<IActionResult> GetGroup([FromRoute] Guid id)
+    {
+        var groupChat = await _context.Groupchats
+            .Include(g => g.Users) // Include related Users
+            .FirstOrDefaultAsync(g => g.Id == id);
+        var groupchatDto = _mapper.Map<GroupchatDTO>(groupChat);
+
+        return Ok(groupchatDto);
+    }
     
     
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateGroupRequest req)
+    public async Task<IActionResult> CreateGroup([FromBody] CreateGroupRequest req)
     {   
         User groupCreator  = _context.Users.FirstOrDefault((x) => x.Id == req.creatorId); 
         var newGroupchat = new Groupchat()
@@ -61,7 +74,7 @@ public class GroupController : ControllerBase
     }
 
     [HttpPost("addUser")]
-    public async Task<IActionResult> AddUser([FromBody] AddUserRequest req)
+    public async Task<IActionResult> AddUserToGroup([FromBody] AddUserRequest req)
     {
         User user  = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
         Groupchat group = _context.Groupchats.FirstOrDefault((x) => x.Id == req.groupId);
@@ -71,7 +84,7 @@ public class GroupController : ControllerBase
     }
 
     [HttpDelete("removeUser")]
-    public async Task<IActionResult> RemoveUser([FromBody] AddUserRequest req)
+    public async Task<IActionResult> RemoveUserFromGroup([FromBody] AddUserRequest req)
     {
         User? user = _context.Users.FirstOrDefault((x) => x.Id == req.userid);
         Groupchat? group = _context.Groupchats
