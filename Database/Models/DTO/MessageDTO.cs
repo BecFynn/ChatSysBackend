@@ -8,13 +8,13 @@ public class MessageDTO
     [Required] public Guid Id { get; set; }
     
     [ForeignKey("senderID")]
-    public User Sender { get; set; } 
+    public UserDTO_Short Sender { get; set; } 
     
     [ForeignKey("groupRecieverId")]
-    public Groupchat? groupReciever { get; set; } 
+    public GroupchatDTO_Short? groupReciever { get; set; } 
     
     [ForeignKey("userRecieverId")]
-    public User? userReciever { get; set; } 
+    public UserDTO_Short? userReciever { get; set; } 
     
     [Required] public string content { get; set; }
     [Required] public DateTime createdDate { get; set; } = DateTime.Now;
