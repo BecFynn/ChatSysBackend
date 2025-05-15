@@ -6,6 +6,6 @@ public class MessageResponse
     public UserDTO Sender { get; set; }
     public UserDTO UserReciever { get; set; }
     public GroupchatDTO GroupReciever { get; set; }
-    public string Content { get; set; }
+    public MessageDTO Message { get; set; }
     public DateTime CreatedDate { get; set; }
 }

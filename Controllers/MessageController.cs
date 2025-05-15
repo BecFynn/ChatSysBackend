@@ -60,6 +60,8 @@ public class MessageController : ControllerBase
                 .Take(count)
                 .ToListAsync();
 
+            messages.Reverse();
+
             var messageDtos = _mapper.Map<List<MessageDTO>>(messages);
 
             var myTarget = new Target
@@ -135,17 +137,18 @@ public class MessageController : ControllerBase
         await _context.Messages.AddAsync(newMessage);
         await _context.SaveChangesAsync();
         
-        var messageObject = new MessageResponse
+        
+        var messageResponse = new MessageResponse
         {
             Action = "message",
             Sender = _mapper.Map<UserDTO>(sender),
             UserReciever = _userReciever != null ? _mapper.Map<UserDTO>(_userReciever) : null,
             GroupReciever = _groupReciever != null ? _mapper.Map<GroupchatDTO>(_groupReciever) : null,
-            Content = req.content,
+            Message = _mapper.Map<MessageDTO>(newMessage),
             CreatedDate = DateTime.Now
         };
 
-        string json = JsonSerializer.Serialize(messageObject, new JsonSerializerOptions()
+        string json = JsonSerializer.Serialize(messageResponse, new JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
