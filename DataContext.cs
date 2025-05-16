@@ -1,9 +1,10 @@
 ﻿using ChatSysBackend.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ChatSysBackend.Controllers;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<User, UserRole, Guid>
 {
     
     public DbSet<User> Users { get; set; }
