@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace ChatSysBackend.Controllers;
-
 public class DataContext : IdentityDbContext<User, UserRole, Guid>
 {
     
@@ -16,9 +14,5 @@ public class DataContext : IdentityDbContext<User, UserRole, Guid>
         
     }
 
-    public DataContext()
-    {
-        
-    }
 
 }

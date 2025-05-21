@@ -46,7 +46,7 @@ public class MessageController : ControllerBase
                 return NotFound("Target nicht gefunden");
             }
 
-            string targetName = userTarget != null ? userTarget.Name : groupTarget!.Name;
+            string targetName = userTarget != null ? userTarget.DisplayName : groupTarget!.Name;
             string targetType = userTarget != null ? "user" : "group";
 
             // Get messages related to the target

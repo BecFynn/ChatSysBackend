@@ -10,7 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2c50414b-edd5-404f-bc29-9a5d1103df80" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChatSysBackend.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChatSysBackend.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net9.0/appsettings.Development.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,48 +56,59 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.ChatSysBackend: http.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "XThreadsFramesViewSplitterKey": "0.3956386",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "http.proxy",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.ChatSysBackend: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.ChatSysBackend: https.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.3956386&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;repository&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.ChatSysBackend: http">
-    <configuration name="ChatSysBackend: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ChatSysBackend.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="http" />
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/net9.0/ChatSysBackend.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/ChatSysBackend.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net9.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="ChatSysBackend: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+    <configuration name="http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ChatSysBackend.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
+      <option name="LAUNCH_PROFILE_NAME" value="http" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
@@ -125,6 +136,9 @@
       <workItem from="1747289823921" duration="11726000" />
       <workItem from="1747382094341" duration="1883000" />
       <workItem from="1747384007685" duration="9084000" />
+      <workItem from="1747400340179" duration="2081000" />
+      <workItem from="1747637221437" duration="17936000" />
+      <workItem from="1747810206977" duration="10567000" />
     </task>
     <task id="LOCAL-00001" summary="deleteted database.cs">
       <option name="closed" value="true" />
@@ -246,7 +260,31 @@
       <option name="project" value="LOCAL" />
       <updated>1747394792110</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added credentials login">
+      <option name="closed" value="true" />
+      <created>1747825117200</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1747825117200</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added credentials login">
+      <option name="closed" value="true" />
+      <created>1747827397579</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1747827397579</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added credentials login">
+      <option name="closed" value="true" />
+      <created>1747827537954</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1747827537954</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +293,11 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="42ca27bb-5d7e-4e84-a8f8-f8b6efc4f4fe" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="User">
@@ -272,6 +315,11 @@
     </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="42ca27bb-5d7e-4e84-a8f8-f8b6efc4f4fe">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -309,7 +357,8 @@
     <MESSAGE value="changed messages" />
     <MESSAGE value="added oauth bosch" />
     <MESSAGE value="added bosch oauth" />
-    <option name="LAST_COMMIT_MESSAGE" value="added bosch oauth" />
+    <MESSAGE value="added credentials login" />
+    <option name="LAST_COMMIT_MESSAGE" value="added credentials login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -326,58 +375,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/AuthController.cs</url>
-          <line>62</line>
-          <properties documentPath="C:\Users\OLR1WE\Desktop\ChatSysBackend\Controllers\AuthController.cs" containingFunctionPresentation="Method 'ExternalCallback'">
-            <startOffsets>
-              <option value="1962" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2009" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/AuthController.cs</url>
-          <line>67</line>
-          <properties documentPath="C:\Users\OLR1WE\Desktop\ChatSysBackend\Controllers\AuthController.cs" containingFunctionPresentation="Method 'ExternalCallback'">
-            <startOffsets>
-              <option value="2165" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2221" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/AuthController.cs</url>
-          <line>75</line>
-          <properties documentPath="C:\Users\OLR1WE\Desktop\ChatSysBackend\Controllers\AuthController.cs" containingFunctionPresentation="Method 'ExternalCallback'">
-            <startOffsets>
-              <option value="2403" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2420" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/AuthController.cs</url>
-          <line>82</line>
-          <properties documentPath="C:\Users\OLR1WE\Desktop\ChatSysBackend\Controllers\AuthController.cs" containingFunctionPresentation="Method 'ExternalCallback'">
-            <startOffsets>
-              <option value="2598" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2633" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

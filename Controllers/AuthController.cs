@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
 using ChatSysBackend.Database.Models;
+using ChatSysBackend.Database.Models.Requests;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatSysBackend.Controllers;
 
@@ -17,13 +19,15 @@ public class AuthController : ControllerBase
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
     private readonly ILogger<AuthController> _logger;
+    private DataContext _context;
     
-    public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper, ILogger<AuthController> logger)
+    public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper, ILogger<AuthController> logger, DataContext context)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _mapper = mapper;
         _logger = logger;
+        _context = context;
     }
     
 
@@ -45,8 +49,71 @@ public class AuthController : ControllerBase
         var redirectUrl = Url.Action("ExternalCallback", new { returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(providerName, redirectUrl);
         return new ChallengeResult(providerName, properties);
+            
     }
+    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDTO))]
+    [HttpPost("/register")]
 
+    public async Task<IActionResult> Register([FromBody] CreateUserRequest newUserDto)
+    {
+        if (newUserDto.Password != newUserDto.RepeatPassword)
+        {
+            return BadRequest("Passwords do not match");
+        }
+        
+        var newUser = new User
+        {   
+            Id = Guid.NewGuid(),
+            UserName = $"{newUserDto.Email}",
+            Email = newUserDto.Email,
+            Name = newUserDto.Name,
+            Surname = newUserDto.Surname,
+            DisplayName = $"{newUserDto.Name} {newUserDto.Surname}",
+            NtUser = newUserDto.NtUser,
+            Avatar = $"https://api.dicebear.com/9.x/open-peeps/svg?seed={newUserDto.NtUser}"
+        };
+        
+        var result = await _userManager.CreateAsync(newUser, newUserDto.Password);
+        
+        if (result.Succeeded)
+        {
+            // Log in the user
+            await _signInManager.SignInAsync(newUser, isPersistent: false);
+            return Ok("Registration and login successful");
+        }
+        
+        return BadRequest(result.Errors);
+    }
+    [HttpPost("/login")]
+    public async Task<IActionResult> LoginWithCredentials([FromBody] LoginUserRequest loginUserRequest)
+    {
+        try
+        {
+            var user = await _userManager.FindByEmailAsync(loginUserRequest.Email);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid credentials");
+            }
+            
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginUserRequest.Password, false);
+            
+            if (!result.Succeeded)
+            {
+                return Unauthorized("Invalid email or password");
+            }
+            
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return Ok("Login successful");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+    }
+    
     [Authorize]
     [HttpGet("signout")]
     public async Task<IActionResult> SignOut(string? returnUrl = null)
@@ -136,7 +203,7 @@ public class AuthController : ControllerBase
             UserName = PreferredUserName,
             Name = firstNameClaim,
             Surname = lastNameClaim,
-            DisplayName = displayNameClaim,
+            DisplayName = $"{firstNameClaim} {lastNameClaim}",
             NtUser = PreferredUserName,
             Email = claims.Single(x => x.Type == ClaimTypes.Email).Value,
             Avatar = "https://api.dicebear.com/9.x/open-peeps/svg?seed=" + PreferredUserName

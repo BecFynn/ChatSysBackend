@@ -55,7 +55,7 @@ public class UserController : ControllerBase
             Id = Guid.NewGuid(),
             Name = req.Name,
             Surname = req.Surname,
-            DisplayName = req.DisplayName,
+            DisplayName = $"{req.Name} {req.Surname}",
             NtUser = req.NtUser,
             Email = req.Email,
             //CreatedAt = DateTime.UtcNow

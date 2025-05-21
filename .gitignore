@@ -1,4 +1,3 @@
 ﻿Migrations/
 bin/
 *.Development.json
-appsettings.Development.json
