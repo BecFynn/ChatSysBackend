@@ -3,6 +3,8 @@ using AutoMapper;
 
 using ChatSysBackend.Database.Models;
 using ChatSysBackend.Database.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +16,39 @@ public class GroupController : ControllerBase
 {
     private DataContext _context;
     private readonly IMapper _mapper;
-    public GroupController(DataContext context, IMapper mapper)
+    private readonly UserManager<User> _userManager;
+
+    public GroupController(DataContext context, IMapper mapper, UserManager<User> userManager)
     {
+        _userManager = userManager;
         _context = context;
         _mapper = mapper;
     }
+    
+    [Authorize]
+    [HttpGet]
+    [Route("MyGroups")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO[]))]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        try
+        {
+            var groupChats = await _context.Groupchats
+                .Include(gc => gc.Users) // Include users to have access for mapping
+                .Where(gc => gc.Users.Any(u => u.Id == user.Id)) // Filter group chats where user ID matches
+                .ToListAsync();
 
+            var groupChatDTOs = _mapper.Map<List<GroupchatDTO>>(groupChats);
+            return Ok(groupChatDTOs);
+        }
+        catch (Exception ex)
+        {
+            return NotFound("Fehler");
+        }
+    }
+
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO[]))]
 
