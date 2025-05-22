@@ -177,7 +177,7 @@ public class AuthController : ControllerBase
 
             externalUser.Name = firstNameClaim;
             externalUser.Surname = lastNameClaim;
-            externalUser.DisplayName = displayNameClaim;
+            externalUser.DisplayName = $"{firstNameClaim} ${lastNameClaim}";
 
             await _userManager.UpdateAsync(externalUser);
 

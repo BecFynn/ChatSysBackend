@@ -93,7 +93,7 @@ builder.Services.AddScoped<IUserStore<User>, UserStore<User, UserRole, DataConte
 if (builder.Environment.IsDevelopment())
     builder.Services.AddCors(o => o.AddPolicy("DevCors", b =>
     {
-        b.WithOrigins(["http://127.0.0.1:5173", "http://localhost:5173"])
+        b.WithOrigins(["http://127.0.0.1:5173", "http://localhost:5173", "http://192.168.1.2:5173"])
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
