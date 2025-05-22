@@ -3,6 +3,8 @@ using AutoMapper;
 
 using ChatSysBackend.Database.Models;
 using ChatSysBackend.Database.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +17,16 @@ public class MessageController : ControllerBase
     private DataContext _context;
     private readonly IMapper _mapper;
     private readonly WebsocketManager _webSocketManager;
-    public MessageController(DataContext context, IMapper mapper, WebsocketManager webSocketManager)
+    private readonly UserManager<User> _userManager;
+
+    public MessageController(DataContext context, IMapper mapper, WebsocketManager webSocketManager, UserManager<User> userManager)
     {
         _context = context;
         _mapper = mapper;
         _webSocketManager = webSocketManager;
-
+        _userManager = userManager;
     }
-    
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetMessagesReponse))]
     public async Task<IActionResult> GetMessages([FromQuery] Guid target, int count = 20)
@@ -45,23 +49,30 @@ public class MessageController : ControllerBase
             {
                 return NotFound("Target nicht gefunden");
             }
-
+            var user = await _userManager.GetUserAsync(User);
             string targetName = userTarget != null ? userTarget.DisplayName : groupTarget!.Name;
             string targetType = userTarget != null ? "user" : "group";
 
+           
             // Get messages related to the target
             var messages = await _context.Messages
-                .Where(m => (userTarget != null && m.userReciever != null && m.userReciever.Id == target)
-                            || (groupTarget != null && m.groupReciever != null && m.groupReciever.Id == target))
+                .Where(m =>
+                    (userTarget != null &&
+                     m.userReciever != null &&
+                     (
+                         (m.userReciever.Id == target && m.Sender.Id == user.Id) ||
+                         (m.userReciever.Id == user.Id && m.Sender.Id == target)
+                     )
+                    ) ||
+                    (groupTarget != null && m.groupReciever != null && m.groupReciever.Id == target))
                 .OrderByDescending(m => m.createdDate)
                 .Include(m => m.Sender)
                 .Include(m => m.userReciever)
                 .Include(m => m.groupReciever)
                 .Take(count)
                 .ToListAsync();
-
             messages.Reverse();
-
+            
             var messageDtos = _mapper.Map<List<MessageDTO>>(messages);
 
             var myTarget = new Target
