@@ -68,7 +68,7 @@ public class GroupController : ControllerBase
             return NotFound("Fehler");
         }
     }
-
+    
     [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO))]
@@ -83,18 +83,20 @@ public class GroupController : ControllerBase
         return Ok(groupchatDto);
     }
     
-    
+    [Authorize]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupchatDTO))]
     public async Task<IActionResult> CreateGroup([FromBody] CreateGroupRequest req)
     {   
-        User groupCreator  = _context.Users.FirstOrDefault((x) => x.Id == req.creatorId); 
+        var user  = await _userManager.GetUserAsync(User);
+        if (user == null) return Unauthorized();
         var newGroupchat = new Groupchat()
         {
             Id = Guid.NewGuid(),
             Name = req.groupname,
             //CreatedDate = DateTime.Now
         };
-        newGroupchat.Users.Add(groupCreator);
+        newGroupchat.Users.Add(user);
         await _context.Groupchats.AddAsync(newGroupchat);
         await _context.SaveChangesAsync();
         
